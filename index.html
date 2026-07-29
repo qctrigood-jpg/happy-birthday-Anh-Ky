@@ -24,11 +24,9 @@
 
 body{
 
-    background:#000;
-
-    color:white;
-
     overflow:hidden;
+
+    background:#000;
 
     font-family:Arial,Helvetica,sans-serif;
 
@@ -42,27 +40,33 @@ canvas{
 
     left:0;
 
-}
-
-#content{
-
-    position:absolute;
-
     width:100%;
 
     height:100%;
 
+    z-index:-1;
+
+}
+
+.container{
+
     display:flex;
+
+    flex-direction:column;
 
     justify-content:center;
 
     align-items:center;
 
-    flex-direction:column;
+    min-height:100vh;
+
+    padding:20px;
+
+    color:white;
 
     opacity:0;
 
-    transition:1.5s;
+    transition:2s;
 
 }
 
@@ -70,7 +74,7 @@ h1{
 
     color:#7CFF00;
 
-    font-size:52px;
+    font-size:50px;
 
     text-align:center;
 
@@ -78,116 +82,198 @@ h1{
 
 h2{
 
-    margin-top:15px;
+    color:#ff5fa2;
 
-    color:white;
+    margin-top:10px;
 
-    font-size:35px;
+    font-size:34px;
 
 }
 
-p{
+.gallery{
 
-    margin-top:30px;
+    display:flex;
 
-    width:80%;
+    gap:20px;
+
+    margin-top:35px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+}
+
+.gallery img{
+
+    width:220px;
+
+    max-width:42vw;
+
+    border-radius:20px;
+
+    border:4px solid white;
+
+    box-shadow:0 0 20px rgba(255,255,255,.4);
+
+    transition:.4s;
+
+}
+
+.gallery img:hover{
+
+    transform:scale(1.05);
+
+}
+
+.message{
+
+    margin-top:35px;
 
     max-width:700px;
 
     text-align:center;
 
-    line-height:35px;
-
     font-size:22px;
+
+    line-height:1.8;
+
+    background:rgba(255,255,255,.08);
+
+    padding:25px;
+
+    border-radius:20px;
+
+    backdrop-filter:blur(8px);
+
+}
+
+@media(max-width:700px){
+
+h1{
+
+    font-size:36px;
+
+}
+
+h2{
+
+    font-size:28px;
+
+}
+
+.gallery img{
+
+    width:160px;
+
+}
+
+.message{
+
+    font-size:18px;
+
+}
 
 }
 
 </style>
-
 </head>
 
 <body>
 
 <canvas id="matrix"></canvas>
 
-<div id="content">
+<div class="container" id="container">
 
-<h1>🎂 Happy Birthday</h1>
+    <h1>🎂 Happy Birthday</h1>
 
-<h2>Anh Kỳ ❤️</h2>
+    <h2>Anh Kỳ ❤️</h2>
 
-<p>
+    <div class="gallery">
 
-Chúc cậu luôn vui vẻ, ngày càng xinh đẹp,
+        <img src="1785338581788_2008560692812646716_3963308102167263971_325fc97805e8757bc900f706721e195a.jpg" alt="Ảnh 1">
 
-khỏe mạnh và bình an.<br><br>
+        <img src="1785338581814_2008560692812646716_3963308102167263971_d210f1b37d41fa6c4060c94c670799de.jpg" alt="Ảnh 2">
 
-Hy vọng cậu đạt được những gì cậu muốn,
+    </div>
 
-những điều đạt được đều là
+    <div class="message">
 
-những điều xứng đáng nhất. ❤️
+        Chúc cậu luôn vui vẻ, ngày càng xinh đẹp,
 
-</p>
+        khỏe mạnh và bình an. ❤️
+
+        <br><br>
+
+        Hy vọng cậu đạt được những gì cậu mong muốn,
+
+        luôn mỉm cười và gặp thật nhiều may mắn trong cuộc sống.
+
+        <br><br>
+
+        🎉 Chúc mừng sinh nhật Anh Kỳ! 🎂
+
+    </div>
 
 </div>
 
 <script>
+    const canvas = document.getElementById("matrix");
 
-const canvas=document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-const ctx=canvas.getContext("2d");
+function resizeCanvas() {
 
-canvas.width=window.innerWidth;
+    canvas.width = window.innerWidth;
 
-canvas.height=window.innerHeight;
-
-const letters="01ABCDEFGHIJKLMNOPQRSTUVWXYZ❤";
-
-const fontSize=16;
-
-const columns=canvas.width/fontSize;
-
-const drops=[];
-
-for(let i=0;i<columns;i++) drops[i]=1;
-
-function draw(){
-
-ctx.fillStyle="rgba(0,0,0,0.08)";
-
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-ctx.fillStyle="#00ff00";
-
-ctx.font=fontSize+"px monospace";
-
-for(let i=0;i<drops.length;i++){
-
-const text=letters[Math.floor(Math.random()*letters.length)];
-
-ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-
-if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
-
-drops[i]=0;
-
-drops[i]++;
+    canvas.height = window.innerHeight;
 
 }
 
+resizeCanvas();
+
+window.addEventListener("resize", resizeCanvas);
+
+const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ❤";
+
+const fontSize = 16;
+
+let columns = Math.floor(canvas.width / fontSize);
+
+let drops = Array(columns).fill(1);
+
+function draw() {
+
+    ctx.fillStyle = "rgba(0,0,0,0.08)";
+
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "#00ff66";
+
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+
+        const text = letters[Math.floor(Math.random() * letters.length)];
+
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+
+            drops[i] = 0;
+
+        }
+
+        drops[i]++;
+
+    }
+
 }
 
-setInterval(draw,35);
+setInterval(draw, 35);
 
-setTimeout(()=>{
+setTimeout(() => {
 
-document.getElementById("content").style.opacity=1;
+    document.getElementById("container").style.opacity = "1";
 
-},3000);
-
-</script>
-
-</body>
-
-</html>
+}, 3000);
